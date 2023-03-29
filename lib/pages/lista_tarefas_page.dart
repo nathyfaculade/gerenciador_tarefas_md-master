@@ -16,6 +16,7 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
 
   static const ACAO_EDITAR = 'editar';
   static const ACAO_EXCLUIR = 'excluir';
+  static const ACAO_VISUALIZACAO = 'visualizar';
 
   final tarefas = <Tarefa>
    [
@@ -148,8 +149,44 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
           );
         }
     );
-
   }
+
+  //Visualizar - Nathy
+  void _visualizar(int indice) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.warning, color: Colors.red,),
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text('Atenção'),
+                )
+              ],
+            ),
+            content: Text('Esse registro será deletado permanentemente'),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('Cancelar')
+              ),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      tarefas.removeAt(indice);
+                    });
+                  },
+                  child: Text('OK')
+              )
+            ],
+          );
+        }
+    );
+  }
+
   List<PopupMenuEntry<String>> _criarItensMenu(){
     return[
       PopupMenuItem(
@@ -172,6 +209,18 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text('Excluir'),
+            )
+          ],
+        ),
+      ),
+      PopupMenuItem(
+        value: ACAO_VISUALIZACAO,
+        child: Row(
+          children: [
+            Icon(Icons.visibility, color: Colors.blueGrey),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text('Visualizar'),
             )
           ],
         ),
