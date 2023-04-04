@@ -12,24 +12,24 @@ class ListaTarefaPage extends StatefulWidget{
   _ListaTarefasPageState createState() => _ListaTarefasPageState();
 
 }
-class _ListaTarefasPageState extends State<ListaTarefaPage>{
+class _ListaTarefasPageState extends State<ListaTarefaPage> {
 
   static const ACAO_EDITAR = 'editar';
   static const ACAO_EXCLUIR = 'excluir';
   static const ACAO_VISUALIZACAO = 'visualizar';
 
   final tarefas = <Tarefa>
-   [
-     //Tarefa(id: 1,
-        // descricao: 'Fazer atividades da aula',
-        // prazo: DateTime.now().add(Duration(days: 5)),
+  [
+    //Tarefa(id: 1,
+    // descricao: 'Fazer atividades da aula',
+    // prazo: DateTime.now().add(Duration(days: 5)),
     // )
   ];
 
- var _ultimoId = 0;
+  var _ultimoId = 0;
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: _criarAppBar(),
       body: _criarBody(),
@@ -41,27 +41,30 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
     );
   }
 
-  void _abrirForm({Tarefa? tarefaAtual, int? index}){
+  void _abrirForm({Tarefa? tarefaAtual, int? index}) {
     final key = GlobalKey<ConteudoFormDialogState>();
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(tarefaAtual == null ? 'Nova Tarefa' : 'Alterar a tarefa ${tarefaAtual.id}'),
+            title: Text(tarefaAtual == null
+                ? 'Nova Tarefa'
+                : 'Alterar a tarefa ${tarefaAtual.id}'),
             content: ConteudoFormDialog(key: key, tarefaAtual: tarefaAtual),
             actions: [
               TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text('Cancelar'),
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('Cancelar'),
               ),
               TextButton(
                 onPressed: () {
-                  if (key.currentState != null && key.currentState!.dadosValidados()){
+                  if (key.currentState != null &&
+                      key.currentState!.dadosValidados()) {
                     setState(() {
                       final novaTarefa = key.currentState!.novaTarefa;
-                      if(index == null){
+                      if (index == null) {
                         novaTarefa.id = ++_ultimoId;
-                      }else{
+                      } else {
                         tarefas[index] = novaTarefa;
                       }
                       tarefas.add(novaTarefa);
@@ -76,7 +79,8 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
         }
     );
   }
- AppBar _criarAppBar(){
+
+  AppBar _criarAppBar() {
     return AppBar(
       title: const Text('Gerenciador de Tarefas'),
       actions: [
@@ -85,47 +89,51 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
             icon: const Icon(Icons.filter_list)),
       ],
     );
- }
-  Widget _criarBody(){
-    if( tarefas.isEmpty){
+  }
+
+  Widget _criarBody() {
+    if (tarefas.isEmpty) {
       return const Center(
         child: Text('Nenhuma tarefa cadastrada',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       );
     }
     return ListView.separated(
-        itemCount: tarefas.length,
-        itemBuilder: (BuildContext context, int index){
-          final tarefa = tarefas[index];
-          return PopupMenuButton<String>(
-              child: ListTile(
-                title: Text('${tarefa.id} - ${tarefa.descricao}'),
-                subtitle: Text(tarefa.prazo == null ? 'Tarefa sem prazo definido' : 'Prazo - ${tarefa.prazoFormatado}'),
-              ),
-              itemBuilder: (BuildContext context) => _criarItensMenu(),
-            onSelected: (String valorSelecinado){
-                if(valorSelecinado == ACAO_EDITAR){
-                  _abrirForm(tarefaAtual: tarefa, index: index);
-                }else{
-                  _excluir(index);
-                }
+      itemCount: tarefas.length,
+      itemBuilder: (BuildContext context, int index) {
+        final tarefa = tarefas[index];
+        return PopupMenuButton<String>(
+            child: ListTile(
+              title: Text('${tarefa.id} - ${tarefa.descricao}'),
+              subtitle: Text(tarefa.prazo == null
+                  ? 'Tarefa sem prazo definido'
+                  : 'Prazo - ${tarefa.prazoFormatado}'),
+            ),
+            itemBuilder: (BuildContext context) => _criarItensMenu(),
+            onSelected: (String valorSelecinado) {
+              if (valorSelecinado == ACAO_EDITAR) {
+                _abrirForm(tarefaAtual: tarefa, index: index);
+              } else {
+                _excluir(index);
+              }
             }
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) => Divider(),
         );
+      },
+      separatorBuilder: (BuildContext context, int index) => Divider(),
+    );
   }
-  void _excluir(int indice){
+
+  void _excluir(int indice) {
     showDialog(
         context: context,
-        builder: (BuildContext context){
+        builder: (BuildContext context) {
           return AlertDialog(
             title: Row(
               children: [
                 Icon(Icons.warning, color: Colors.red,),
                 Padding(
-                    padding: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.only(left: 10),
                   child: Text('Atenção'),
                 )
               ],
@@ -187,19 +195,20 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
     );
   }
 
-  List<PopupMenuEntry<String>> _criarItensMenu(){
-    return[
+
+  List<PopupMenuEntry<String>> _criarItensMenu() {
+    return [
       PopupMenuItem(
         value: ACAO_EDITAR,
-          child: Row(
-            children: [
-              Icon(Icons.edit, color: Colors.black),
-              Padding(
-                  padding: EdgeInsets.only(left: 10),
-                child: Text('Editar'),
-              )
-            ],
-          ),
+        child: Row(
+          children: [
+            Icon(Icons.edit, color: Colors.black),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text('Editar'),
+            )
+          ],
+        ),
       ),
       PopupMenuItem(
         value: ACAO_EXCLUIR,
@@ -213,6 +222,7 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
           ],
         ),
       ),
+      //visualizar - Nathy
       PopupMenuItem(
         value: ACAO_VISUALIZACAO,
         child: Row(
@@ -228,15 +238,30 @@ class _ListaTarefasPageState extends State<ListaTarefaPage>{
     ];
   }
 
-  void _abrirPaginaFiltro(){
+  void _abrirPaginaFiltro() {
     final navigator = Navigator.of(context);
-    navigator.pushNamed(FiltroPage.routeName).then((alterouValores){
-      if( alterouValores == true){
+    navigator.pushNamed(FiltroPage.routeName).then((alterouValores) {
+      if (alterouValores == true) {
         ///filtro
       }
     }
-
     );
+  }
 
+  //Tela principal para exibição dos pontos já cadastrados
+  void _pontoscadastrados() {
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Tourist Points'),
+        ),
+      );
+    }
   }
 }
+
+
+
+
+
