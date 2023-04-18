@@ -16,14 +16,14 @@ class FiltroPage extends StatefulWidget{
 class _FiltroPageState extends State<FiltroPage> {
 
   final _camposParaOrdenacao = {
-    Tarefa.CAMPO_ID: 'Código',
-    Tarefa.CAMPO_DESCRICAO: 'Descrição',
-    Tarefa.CAMPO_PRAZO: 'Prazo'
+    Tarefa.campoId: 'Código',
+    Tarefa.campoDescricao: 'Descrição',
+    Tarefa.campoPrazo: 'Prazo'
   };
 
   late final SharedPreferences _prefes;
   final _descricaoController = TextEditingController();
-  String _campoOrdenacao = Tarefa.CAMPO_ID;
+  String _campoOrdenacao = Tarefa.campoId;
   bool _usarOrdemDecrescente = false;
   bool _alterouValores = false;
 
@@ -36,7 +36,7 @@ class _FiltroPageState extends State<FiltroPage> {
   void _carregaDadosSharedPreferences() async {
     _prefes = await SharedPreferences.getInstance();
     setState(() {
-      _campoOrdenacao = _prefes.getString(FiltroPage.chaveCampoOrdenacao) ?? Tarefa.CAMPO_ID;
+      _campoOrdenacao = _prefes.getString(FiltroPage.chaveCampoOrdenacao) ?? Tarefa.campoId;
       _usarOrdemDecrescente = _prefes.getBool(FiltroPage.chaveUsarOrdemDecrescente) == true;
       _descricaoController.text = _prefes.getString(FiltroPage.chaveCampoDescricao) ?? '' ;
     });
@@ -45,12 +45,12 @@ class _FiltroPageState extends State<FiltroPage> {
   @override
   Widget build(BuildContext context){
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(title: Text('Filtro e Ordenação'),
-          ),
-          body: _criarBody(),
+      child: Scaffold(
+        appBar: AppBar(title: Text('Filtro e Ordenação'),
         ),
-        onWillPop: _onVoltarClick,
+        body: _criarBody(),
+      ),
+      onWillPop: _onVoltarClick,
     );
   }
 
@@ -58,16 +58,16 @@ class _FiltroPageState extends State<FiltroPage> {
     return ListView(
       children: [
         Padding(
-            padding: EdgeInsets.only(left: 10, top: 10),
+          padding: EdgeInsets.only(left: 10, top: 10),
           child: Text('Campos para Ordenação'),
         ),
         for (final campo in _camposParaOrdenacao.keys)
           Row(
             children: [
               Radio(
-                  value: campo,
-                  groupValue: _campoOrdenacao,
-                  onChanged: _onCampoParaOrdenacaoChanged,
+                value: campo,
+                groupValue: _campoOrdenacao,
+                onChanged: _onCampoParaOrdenacaoChanged,
               ),
               Text(_camposParaOrdenacao[campo]!),
             ],
@@ -76,15 +76,15 @@ class _FiltroPageState extends State<FiltroPage> {
         Row(
           children: [
             Checkbox(
-                value: _usarOrdemDecrescente,
-                onChanged: _onUsarOrdemDecrescenteChanged,
+              value: _usarOrdemDecrescente,
+              onChanged: _onUsarOrdemDecrescenteChanged,
             ),
             Text('Usar ordem decrescente'),
           ],
         ),
         Divider(),
         Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.symmetric(horizontal: 10),
           child: TextField(
             decoration: InputDecoration(
               labelText: 'Descrição começa com:',
@@ -123,4 +123,3 @@ class _FiltroPageState extends State<FiltroPage> {
     return true;
   }
 }
-
