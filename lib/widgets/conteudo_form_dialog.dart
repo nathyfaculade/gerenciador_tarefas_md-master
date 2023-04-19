@@ -95,5 +95,7 @@ class ConteudoDialogFormState extends State<ConteudoDialogForm> {
     prazo: _prazoController.text.isEmpty
         ? null
         : _dateFormat.parse(_prazoController.text),
+    data: null,
+    diferenciais: '',
   );
 }

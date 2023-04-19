@@ -40,6 +40,44 @@ class _ListaTarefasPageState extends State<ListaTarefasPage> {
       ),
     );
   }
+  AppBar _criardescricao() {
+    return AppBar(
+      title: Text('Descrição'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          tooltip: 'Filtro e Ordenação',
+          onPressed: _abrirPaginaFiltro,
+        ),
+      ],
+    );
+  }
+
+  AppBar _criarAdicionais() {
+    return AppBar(
+      title: Text('Adicionais do ponto'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          tooltip: 'Filtro e Ordenação',
+          onPressed: _abrirPaginaFiltro,
+        ),
+      ],
+    );
+  }
+  AppBar _criarHorario() {
+    return AppBar(
+      title: Text('Horário de Funcionamento'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.filter_list),
+          tooltip: 'Filtro e Ordenação',
+          onPressed: _abrirPaginaFiltro,
+        ),
+      ],
+    );
+  }
+
 
   AppBar _criarAppBar() {
     return AppBar(
