@@ -6,18 +6,28 @@ class Tarefa {
   static const campoDescricao = 'descricao';
   static const campoPrazo = 'prazo';
   static const campoFinalizada = 'finalizada';
+  static const campoDiferenciais = "diferenciais";
+  static const campoData = "Data";
 
   int? id;
   String descricao;
   DateTime? prazo;
   bool finalizada;
+  String diferenciais;
+  DateTime? data = DateTime.now();
 
+  
+ 
   Tarefa({
     this.id,
     required this.descricao,
     this.prazo,
     this.finalizada = false,
+    required this.data,
+    required this.diferenciais,
   });
+
+ 
 
   String get prazoFormatado {
     if (prazo == null) {
@@ -41,5 +51,7 @@ class Tarefa {
         ? DateFormat("yyyy-MM-dd").parse(map[campoPrazo])
         : null,
     finalizada: map[campoFinalizada] == 1,
+    data: DateFormat("yyyy-MM-dd").parse(map[campoData]),
+    diferenciais: map[campoDiferenciais] is String ? map[campoDiferenciais] : '',
   );
 }
